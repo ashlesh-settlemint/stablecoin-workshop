@@ -1,0 +1,266 @@
+[
+    {
+        "id": "aa9277bd5adc2f20",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1df76ed0cbc97b10",
+        "type": "inject",
+        "z": "aa9277bd5adc2f20",
+        "name": "input",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 430,
+        "y": 180,
+        "wires": [
+            [
+                "1dc6e21629e119ac"
+            ]
+        ]
+    },
+    {
+        "id": "1dc6e21629e119ac",
+        "type": "function",
+        "z": "aa9277bd5adc2f20",
+        "name": "Set Global Variable",
+        "func": "// Create a object of environment variables\nconst globalVariables = {\n  rpcEndpoint:\n    'https://mumbai-network-ff17.gke-japan.settlemint.com/bpaas-a19Cf4367b8AE440Fc31D7c23bEe797CEA348FC4',\n  pvtKey: '0x69253a8605f2b5451df8b84fe17d1bb60bbc0c78d3ff3464d2b0e94bab3e7734',\n  factoryContractAddress: \"0xE2c990F3d26124A8F5725e2D9177779FE68645dC\",\n  stablecoinAbi: [\n    {\n      inputs: [\n        {\n          internalType: 'string',\n          name: 'name',\n          type: 'string',\n        },\n        {\n          internalType: 'string',\n          name: 'symbol',\n          type: 'string',\n        },\n        {\n          internalType: 'uint256',\n          name: 'colleateralSupply',\n          type: 'uint256',\n        },\n        {\n          internalType: 'address',\n          name: 'defaultAdmin',\n          type: 'address',\n        },\n        {\n          internalType: 'address',\n          name: 'pauser',\n          type: 'address',\n        },\n        {\n          internalType: 'address',\n          name: 'minter',\n          type: 'address',\n        },\n        {\n          internalType: 'address',\n          name: 'burner',\n          type: 'address',\n        },\n        {\n          internalType: 'uint8',\n          name: 'decimal',\n          type: 'uint8',\n        },\n      ],\n      stateMutability: 'nonpayable',\n      type: 'constructor',\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'owner',\n          type: 'address',\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'spender',\n          type: 'address',\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'value',\n          type: 'uint256',\n        },\n      ],\n      name: 'Approval',\n      type: 'event',\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: false,\n          internalType: 'address',\n          name: 'account',\n          type: 'address',\n        },\n      ],\n      name: 'Paused',\n      type: 'event',\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'role',\n          type: 'bytes32',\n        },\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'previousAdminRole',\n          type: 'bytes32',\n        },\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'newAdminRole',\n          type: 'bytes32',\n        },\n      ],\n      name: 'RoleAdminChanged',\n      type: 'event',\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'role',\n          type: 'bytes32',\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'account',\n          type: 'address',\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'sender',\n          type: 'address',\n        },\n      ],\n      name: 'RoleGranted',\n      type: 'event',\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'role',\n          type: 'bytes32',\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'account',\n          type: 'address',\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'sender',\n          type: 'address',\n        },\n      ],\n      name: 'RoleRevoked',\n      type: 'event',\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'from',\n          type: 'address',\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'to',\n          type: 'address',\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'value',\n          type: 'uint256',\n        },\n      ],\n      name: 'Transfer',\n      type: 'event',\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: false,\n          internalType: 'address',\n          name: 'account',\n          type: 'address',\n        },\n      ],\n      name: 'Unpaused',\n      type: 'event',\n    },\n    {\n      inputs: [],\n      name: 'BURNER_ROLE',\n      outputs: [\n        {\n          internalType: 'bytes32',\n          name: '',\n          type: 'bytes32',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'DEFAULT_ADMIN_ROLE',\n      outputs: [\n        {\n          internalType: 'bytes32',\n          name: '',\n          type: 'bytes32',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'MINTER_ROLE',\n      outputs: [\n        {\n          internalType: 'bytes32',\n          name: '',\n          type: 'bytes32',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'PAUSER_ROLE',\n      outputs: [\n        {\n          internalType: 'bytes32',\n          name: '',\n          type: 'bytes32',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: 'owner',\n          type: 'address',\n        },\n        {\n          internalType: 'address',\n          name: 'spender',\n          type: 'address',\n        },\n      ],\n      name: 'allowance',\n      outputs: [\n        {\n          internalType: 'uint256',\n          name: '',\n          type: 'uint256',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: 'spender',\n          type: 'address',\n        },\n        {\n          internalType: 'uint256',\n          name: 'amount',\n          type: 'uint256',\n        },\n      ],\n      name: 'approve',\n      outputs: [\n        {\n          internalType: 'bool',\n          name: '',\n          type: 'bool',\n        },\n      ],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: 'account',\n          type: 'address',\n        },\n      ],\n      name: 'balanceOf',\n      outputs: [\n        {\n          internalType: 'uint256',\n          name: '',\n          type: 'uint256',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: 'from',\n          type: 'address',\n        },\n        {\n          internalType: 'uint256',\n          name: 'amount',\n          type: 'uint256',\n        },\n      ],\n      name: 'burnFrom',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'decimals',\n      outputs: [\n        {\n          internalType: 'uint8',\n          name: '',\n          type: 'uint8',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: 'spender',\n          type: 'address',\n        },\n        {\n          internalType: 'uint256',\n          name: 'subtractedValue',\n          type: 'uint256',\n        },\n      ],\n      name: 'decreaseAllowance',\n      outputs: [\n        {\n          internalType: 'bool',\n          name: '',\n          type: 'bool',\n        },\n      ],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes32',\n          name: 'role',\n          type: 'bytes32',\n        },\n      ],\n      name: 'getRoleAdmin',\n      outputs: [\n        {\n          internalType: 'bytes32',\n          name: '',\n          type: 'bytes32',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes32',\n          name: 'role',\n          type: 'bytes32',\n        },\n        {\n          internalType: 'address',\n          name: 'account',\n          type: 'address',\n        },\n      ],\n      name: 'grantRole',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes32',\n          name: 'role',\n          type: 'bytes32',\n        },\n        {\n          internalType: 'address',\n          name: 'account',\n          type: 'address',\n        },\n      ],\n      name: 'hasRole',\n      outputs: [\n        {\n          internalType: 'bool',\n          name: '',\n          type: 'bool',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: 'spender',\n          type: 'address',\n        },\n        {\n          internalType: 'uint256',\n          name: 'addedValue',\n          type: 'uint256',\n        },\n      ],\n      name: 'increaseAllowance',\n      outputs: [\n        {\n          internalType: 'bool',\n          name: '',\n          type: 'bool',\n        },\n      ],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: 'to',\n          type: 'address',\n        },\n        {\n          internalType: 'uint256',\n          name: 'amount',\n          type: 'uint256',\n        },\n      ],\n      name: 'mint',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'name',\n      outputs: [\n        {\n          internalType: 'string',\n          name: '',\n          type: 'string',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'pause',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'paused',\n      outputs: [\n        {\n          internalType: 'bool',\n          name: '',\n          type: 'bool',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes32',\n          name: 'role',\n          type: 'bytes32',\n        },\n        {\n          internalType: 'address',\n          name: 'account',\n          type: 'address',\n        },\n      ],\n      name: 'renounceRole',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes32',\n          name: 'role',\n          type: 'bytes32',\n        },\n        {\n          internalType: 'address',\n          name: 'account',\n          type: 'address',\n        },\n      ],\n      name: 'revokeRole',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes4',\n          name: 'interfaceId',\n          type: 'bytes4',\n        },\n      ],\n      name: 'supportsInterface',\n      outputs: [\n        {\n          internalType: 'bool',\n          name: '',\n          type: 'bool',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'symbol',\n      outputs: [\n        {\n          internalType: 'string',\n          name: '',\n          type: 'string',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'totalSupply',\n      outputs: [\n        {\n          internalType: 'uint256',\n          name: '',\n          type: 'uint256',\n        },\n      ],\n      stateMutability: 'view',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: 'to',\n          type: 'address',\n        },\n        {\n          internalType: 'uint256',\n          name: 'amount',\n          type: 'uint256',\n        },\n      ],\n      name: 'transfer',\n      outputs: [\n        {\n          internalType: 'bool',\n          name: '',\n          type: 'bool',\n        },\n      ],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: 'from',\n          type: 'address',\n        },\n        {\n          internalType: 'address',\n          name: 'to',\n          type: 'address',\n        },\n        {\n          internalType: 'uint256',\n          name: 'amount',\n          type: 'uint256',\n        },\n      ],\n      name: 'transferFrom',\n      outputs: [\n        {\n          internalType: 'bool',\n          name: '',\n          type: 'bool',\n        },\n      ],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [],\n      name: 'unpause',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n    {\n      inputs: [\n        {\n          internalType: 'uint256',\n          name: 'newColleateralSupply',\n          type: 'uint256',\n        },\n      ],\n      name: 'updateColleateralSupply',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function',\n    },\n  ],\n  stablecoinFactoryAbi: [\n    {\n      \"inputs\": [\n        {\n          \"internalType\": \"address\",\n          \"name\": \"initialOwner\",\n          \"type\": \"address\"\n        }\n      ],\n      \"stateMutability\": \"nonpayable\",\n      \"type\": \"constructor\"\n    },\n    {\n      \"anonymous\": false,\n      \"inputs\": [\n        {\n          \"indexed\": false,\n          \"internalType\": \"address\",\n          \"name\": \"reserveConsumerAddress\",\n          \"type\": \"address\"\n        },\n        {\n          \"indexed\": false,\n          \"internalType\": \"address\",\n          \"name\": \"tokenAddress\",\n          \"type\": \"address\"\n        },\n        {\n          \"indexed\": false,\n          \"internalType\": \"bool\",\n          \"name\": \"capped\",\n          \"type\": \"bool\"\n        }\n      ],\n      \"name\": \"NewStablecoin\",\n      \"type\": \"event\"\n    },\n    {\n      \"anonymous\": false,\n      \"inputs\": [\n        {\n          \"indexed\": true,\n          \"internalType\": \"address\",\n          \"name\": \"previousOwner\",\n          \"type\": \"address\"\n        },\n        {\n          \"indexed\": true,\n          \"internalType\": \"address\",\n          \"name\": \"newOwner\",\n          \"type\": \"address\"\n        }\n      ],\n      \"name\": \"OwnershipTransferred\",\n      \"type\": \"event\"\n    },\n    {\n      \"inputs\": [\n        {\n          \"internalType\": \"bool\",\n          \"name\": \"isOffChainOracle\",\n          \"type\": \"bool\"\n        },\n        {\n          \"internalType\": \"address\",\n          \"name\": \"feedAddress\",\n          \"type\": \"address\"\n        },\n        {\n          \"internalType\": \"string\",\n          \"name\": \"name\",\n          \"type\": \"string\"\n        },\n        {\n          \"internalType\": \"string\",\n          \"name\": \"symbol\",\n          \"type\": \"string\"\n        },\n        {\n          \"internalType\": \"uint256\",\n          \"name\": \"initialSupply\",\n          \"type\": \"uint256\"\n        },\n        {\n          \"internalType\": \"uint256\",\n          \"name\": \"maxSupply\",\n          \"type\": \"uint256\"\n        },\n        {\n          \"internalType\": \"address\",\n          \"name\": \"defaultAdmin\",\n          \"type\": \"address\"\n        },\n        {\n          \"internalType\": \"address\",\n          \"name\": \"pauser\",\n          \"type\": \"address\"\n        },\n        {\n          \"internalType\": \"address\",\n          \"name\": \"minter\",\n          \"type\": \"address\"\n        },\n        {\n          \"internalType\": \"address\",\n          \"name\": \"burner\",\n          \"type\": \"address\"\n        },\n        {\n          \"internalType\": \"uint8\",\n          \"name\": \"decimal\",\n          \"type\": \"uint8\"\n        }\n      ],\n      \"name\": \"deployStablecoin\",\n      \"outputs\": [\n        {\n          \"internalType\": \"address\",\n          \"name\": \"\",\n          \"type\": \"address\"\n        }\n      ],\n      \"stateMutability\": \"nonpayable\",\n      \"type\": \"function\"\n    },\n    {\n      \"inputs\": [],\n      \"name\": \"getAllStableCoins\",\n      \"outputs\": [\n        {\n          \"components\": [\n            {\n              \"internalType\": \"string\",\n              \"name\": \"name\",\n              \"type\": \"string\"\n            },\n            {\n              \"internalType\": \"string\",\n              \"name\": \"symbol\",\n              \"type\": \"string\"\n            },\n            {\n              \"internalType\": \"uint256\",\n              \"name\": \"initialSupply\",\n              \"type\": \"uint256\"\n            },\n            {\n              \"internalType\": \"uint256\",\n              \"name\": \"maxSupply\",\n              \"type\": \"uint256\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"defaultAdmin\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"pauser\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"minter\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"burner\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"uint8\",\n              \"name\": \"decimal\",\n              \"type\": \"uint8\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"feedAddress\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"coinAddress\",\n              \"type\": \"address\"\n            }\n          ],\n          \"internalType\": \"struct StableCoinFactory.Stablecoin[]\",\n          \"name\": \"\",\n          \"type\": \"tuple[]\"\n        }\n      ],\n      \"stateMutability\": \"view\",\n      \"type\": \"function\"\n    },\n    {\n      \"inputs\": [\n        {\n          \"internalType\": \"address\",\n          \"name\": \"stableCoinAddress\",\n          \"type\": \"address\"\n        }\n      ],\n      \"name\": \"getStablecoinDetails\",\n      \"outputs\": [\n        {\n          \"components\": [\n            {\n              \"internalType\": \"string\",\n              \"name\": \"name\",\n              \"type\": \"string\"\n            },\n            {\n              \"internalType\": \"string\",\n              \"name\": \"symbol\",\n              \"type\": \"string\"\n            },\n            {\n              \"internalType\": \"uint256\",\n              \"name\": \"initialSupply\",\n              \"type\": \"uint256\"\n            },\n            {\n              \"internalType\": \"uint256\",\n              \"name\": \"maxSupply\",\n              \"type\": \"uint256\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"defaultAdmin\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"pauser\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"minter\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"burner\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"uint8\",\n              \"name\": \"decimal\",\n              \"type\": \"uint8\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"feedAddress\",\n              \"type\": \"address\"\n            },\n            {\n              \"internalType\": \"address\",\n              \"name\": \"coinAddress\",\n              \"type\": \"address\"\n            }\n          ],\n          \"internalType\": \"struct StableCoinFactory.Stablecoin\",\n          \"name\": \"\",\n          \"type\": \"tuple\"\n        }\n      ],\n      \"stateMutability\": \"view\",\n      \"type\": \"function\"\n    },\n    {\n      \"inputs\": [],\n      \"name\": \"owner\",\n      \"outputs\": [\n        {\n          \"internalType\": \"address\",\n          \"name\": \"\",\n          \"type\": \"address\"\n        }\n      ],\n      \"stateMutability\": \"view\",\n      \"type\": \"function\"\n    },\n    {\n      \"inputs\": [],\n      \"name\": \"renounceOwnership\",\n      \"outputs\": [],\n      \"stateMutability\": \"nonpayable\",\n      \"type\": \"function\"\n    },\n    {\n      \"inputs\": [\n        {\n          \"internalType\": \"address\",\n          \"name\": \"newOwner\",\n          \"type\": \"address\"\n        }\n      ],\n      \"name\": \"transferOwnership\",\n      \"outputs\": [],\n      \"stateMutability\": \"nonpayable\",\n      \"type\": \"function\"\n    }\n  ]\n};\n\n\nglobal.set('rpcEndpoint', globalVariables.rpcEndpoint);\nglobal.set('stablecoinAbi', globalVariables.stablecoinAbi);\nglobal.set('stablecoinFactoryAbi', globalVariables.stablecoinFactoryAbi);\nglobal.set('factoryContractAddress', globalVariables.factoryContractAddress);\n\n\nglobal.set('pvtKey', globalVariables.pvtKey);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 180,
+        "wires": [
+            [
+                "c8f3fbad5844e3d4"
+            ]
+        ]
+    },
+    {
+        "id": "c8f3fbad5844e3d4",
+        "type": "debug",
+        "z": "aa9277bd5adc2f20",
+        "name": "Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "{\t    \"status\": \"Success\"\t}",
+        "targetType": "jsonata",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "33033871230dc2d7",
+        "type": "http in",
+        "z": "aa9277bd5adc2f20",
+        "name": "Deploy StableCoin Contract",
+        "url": "/deployCoin",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 400,
+        "y": 340,
+        "wires": [
+            [
+                "6c1c42495a200045"
+            ]
+        ]
+    },
+    {
+        "id": "6c1c42495a200045",
+        "type": "function",
+        "z": "aa9277bd5adc2f20",
+        "name": "Deploy Stablecoin",
+        "func": "const {ethers} = global.get(\"ethers\");\n\n///////////////////////////////////////////////////////////\n// Configuration                                         //\n///////////////////////////////////////////////////////////\n\nconst rpcEndpoint = global.get('rpcEndpoint');\nconst pvtkey = global.get('pvtKey');\nconst stablecoinFactoryAbi = global.get('stablecoinFactoryAbi')\nconst factoryContractAddress = global.get('factoryContractAddress');\n\n///////////////////////////////////////////////////////////\n// Logic                                                 //\n///////////////////////////////////////////////////////////\n\n// Create the factory contract instance\nconst provider = new ethers.providers.JsonRpcProvider(`${rpcEndpoint}`);\nconst signer = new ethers.Wallet(pvtkey, provider)\nconst contractInstance = new ethers.Contract(factoryContractAddress, stablecoinFactoryAbi, signer);\n\n// Send a blockchain transaction\nconst tx = await contractInstance.deployStablecoin(\n    msg.req.body.isOffChainOracle,\n    msg.req.body.feedAddress,\n    msg.req.body.name,\n    msg.req.body.symbol,\n    msg.req.body.initialSupply,\n    msg.req.body.maxSupply, \n    msg.req.body.defaultAdmin,\n    msg.req.body.pauser,\n    msg.req.body.minter,\n    msg.req.body.burner,\n    msg.req.body.decimal\n)\n\n// Wait for transaction\nawait tx.wait(2);\n\nmsg.payload = {\n    txHash: tx.hash,\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 340,
+        "wires": [
+            [
+                "aaee055ddaea6768",
+                "2aecba567c634289"
+            ]
+        ]
+    },
+    {
+        "id": "aaee055ddaea6768",
+        "type": "http response",
+        "z": "aa9277bd5adc2f20",
+        "name": "Output",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1020,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "c7dc0a48e5cc0df4",
+        "type": "inject",
+        "z": "aa9277bd5adc2f20",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 440,
+        "y": 400,
+        "wires": [
+            [
+                "6c1c42495a200045"
+            ]
+        ]
+    },
+    {
+        "id": "2aecba567c634289",
+        "type": "debug",
+        "z": "aa9277bd5adc2f20",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "0ac7dddeaeaf9b17",
+        "type": "http in",
+        "z": "aa9277bd5adc2f20",
+        "name": "Get all stablecoins",
+        "url": "/coins",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 350,
+        "y": 600,
+        "wires": [
+            [
+                "132eb48326c92e3e"
+            ]
+        ]
+    },
+    {
+        "id": "132eb48326c92e3e",
+        "type": "function",
+        "z": "aa9277bd5adc2f20",
+        "name": "Get all stablecoins",
+        "func": "const {ethers} = global.get(\"ethers\");\n\n///////////////////////////////////////////////////////////\n// Configuration                                         //\n///////////////////////////////////////////////////////////\n\nconst rpcEndpoint = global.get('rpcEndpoint');\nconst pvtkey = global.get('pvtKey');\nconst stablecoinFactoryAbi = global.get('stablecoinFactoryAbi')\nconst factoryContractAddress = global.get('factoryContractAddress');\n\n///////////////////////////////////////////////////////////\n// Logic                                                 //\n///////////////////////////////////////////////////////////\n\nconst provider = new ethers.providers.JsonRpcProvider(`${rpcEndpoint}`);\nconst signer = new ethers.Wallet(pvtkey, provider)\nconst contractInstance = new ethers.Contract(factoryContractAddress, stablecoinFactoryAbi, signer);\n\nconst tx = await contractInstance.getAllStableCoins()\n\n\nmsg.payload = {\n    coins: tx\n}\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 600,
+        "wires": [
+            [
+                "8d82f4b5f9dfe635",
+                "6fa4b7e38af17fbb"
+            ]
+        ]
+    },
+    {
+        "id": "8d82f4b5f9dfe635",
+        "type": "http response",
+        "z": "aa9277bd5adc2f20",
+        "name": "Output",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1000,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "9d1f78ef9ec04995",
+        "type": "inject",
+        "z": "aa9277bd5adc2f20",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 420,
+        "y": 660,
+        "wires": [
+            [
+                "132eb48326c92e3e"
+            ]
+        ]
+    },
+    {
+        "id": "6fa4b7e38af17fbb",
+        "type": "debug",
+        "z": "aa9277bd5adc2f20",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 660,
+        "wires": []
+    }
+]
