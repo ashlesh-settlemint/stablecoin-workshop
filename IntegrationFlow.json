@@ -1,0 +1,23 @@
+[
+    {
+        "id": "6c1c42495a200045",
+        "type": "function",
+        "z": "aa9277bd5adc2f20",
+        "name": "Deploy Stablecoin",
+        "func": "const {ethers} = global.get(\"ethers\");\n\n///////////////////////////////////////////////////////////\n// Configuration                                         //\n///////////////////////////////////////////////////////////\n\nconst rpcEndpoint = global.get('rpcEndpoint');\nconst pvtkey = global.get('pvtKey');\nconst stablecoinFactoryAbi = global.get('stablecoinFactoryAbi')\nconst factoryContractAddress = global.get('factoryContractAddress');\n\n///////////////////////////////////////////////////////////\n// Logic                                                 //\n///////////////////////////////////////////////////////////\n\n// Create the factory contract instance\nconst provider = new ethers.providers.JsonRpcProvider(`${rpcEndpoint}`);\nconst signer = new ethers.Wallet(pvtkey, provider)\nconst contractInstance = new ethers.Contract(factoryContractAddress, stablecoinFactoryAbi, signer);\n\n// Send a blockchain transaction\nconst tx = await contractInstance.deployStablecoin(\n    msg.req.body.isOffChainOracle,\n    msg.req.body.feedAddress,\n    msg.req.body.name,\n    msg.req.body.symbol,\n    msg.req.body.initialSupply,\n    msg.req.body.maxSupply, \n    msg.req.body.defaultAdmin,\n    msg.req.body.pauser,\n    msg.req.body.minter,\n    msg.req.body.burner,\n    msg.req.body.decimal\n)\n\n// Wait for transaction\nawait tx.wait(1);\n\nmsg.payload = {\n    tx: tx.hash\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 340,
+        "wires": [
+            [
+                "aaee055ddaea6768",
+                "2aecba567c634289"
+            ]
+        ]
+    }
+]
